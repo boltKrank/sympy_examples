@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dom insertion test</title>
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+
+        body {
+            display: flex; 
+        }
+
+        .circle-container {
+            display: flex;
+            justify-content: center;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            transition: all 2s ease-in;
+            flex-grow: inherit;
+        }
+
+        /* .circle-container.transition {
+            transform: translateX(-100px);
+            margin: 0;
+            height: 0;
+        } */
+
+        .circle {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            background-color: #1abc9c;
+            opacity: 0;
+            transition: all 2s ease-in;
+            margin: 20px;
+        }
+
+        .circle.visible {
+            opacity: 1;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            flex-grow: 1;
+        }
+
+        button {
+            margin: 0 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="circle-container"></div>
+    <div class="button-container">
+        <button onclick="addCircle()">Add Circle</button>
+        <button onclick="removeFirstCircle()">Remove First Circle</button>
+    </div>
+
+    <script>
+        function addCircle() {
+            const circleContainer = document.querySelector('.circle-container');
+            const circle = document.createElement('div');
+            circle.classList.add('circle');
+            circleContainer.appendChild(circle);
+            // This is a testing block
+            //alert (circleContainer.style.width);
+            //circleContainer.style.width = "200" + circleContainer.style.width;
+
+            setTimeout(() => {
+                circle.classList.add('visible');
+            }, 200);
+        }
+
+        function removeFirstCircle() {
+            const circleContainer = document.querySelector('.circle-container');
+            const firstCircle = circleContainer.querySelector('.circle');
+            if (firstCircle) {
+                firstCircle.classList.remove('visible');
+
+                firstCircle.addEventListener('transitionend', () => {
+                    circleContainer.removeChild(firstCircle);
+                });
+            }
+        }
+    </script>
+</body>
+</html>
+
